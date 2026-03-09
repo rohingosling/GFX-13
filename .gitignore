@@ -1,0 +1,17 @@
+# Build artifacts
+*.obj
+*.OBJ
+*.exe
+*.EXE
+build.log
+BUILD.LOG
+
+# Backups (local snapshots, not for version control)
+Backup/
+
+# IDE and tool settings
+.vscode/
+.claude/
+
+# Claude Code prompt files
+prompt.md
