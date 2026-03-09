@@ -9,9 +9,15 @@ BUILD.LOG
 # Backups (local snapshots, not for version control)
 Backup/
 
+# v1 test suite (not published)
+v1/test/
+
 # IDE and tool settings
 .vscode/
 .claude/
 
-# Claude Code prompt files
+# Claude Code files
+CLAUDE.md
+v1/CLAUDE.md
+v2/CLAUDE.md
 prompt.md

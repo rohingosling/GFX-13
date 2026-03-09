@@ -1,55 +1,71 @@
 # GFX-13
 
-A VGA Mode 13h (320x200, 256 colors) graphics library for DOS, providing 2D drawing primitives, image blitting, and palette manipulation.
+A VGA Mode 13h (320x200, 256 colors) 2D graphics library for demo coding, written in x96 assembly language back in the 90s.
 
-Originally written in 1991 for use in DOS demos and games. The original source was lost; both versions here were reconstructed from surviving build artifacts.
+Features:
+- Fast clipping
+- Putting and getting pixels.
+- Wireframe primitives.
+- Filled primitives.
+- Image blitting and scaling.
+
+||||
+|:---:|:---:|:---:|
+|![](images\capture\balls-1.png)|![](images\capture\blocks02_011.png)|![](images\capture\Mandelbrot_320x200.png)|||
+|![](images\capture\vectorus_000.png)|![](images\capture\plasma06_001.png)|![](images\capture\vectorus_008.png)|||
+|||3D codded with my **M3DE** graphics engine.|
 
 ## Versions
 
-| Version | Language | Functions | Toolchain |
-|---------|----------|-----------|-----------|
-| **v1** (v1.1) | Pure 80x86 assembly (TASM) | 18 | TASM 3.x + BCC 3.1 |
-| **v2** (v2.1) | C with inline assembly | 20 | BCC 3.1 |
-
-v2 adds `GetImage` and `ScaleImage` on top of v1's API.
+| Version | Language | Toolchain |
+|---------|----------|-----------|
+| **v1** (v1.1) | Pure 80x86 assembly | TASM |
+| **v2** (v2.1) | Upgraded version written in C with inline assembly | Borland C++ 3.1 |
 
 ## API
 
 ```c
-// Video Mode
-void SetMode13   (void);                      // Enter 320x200, 256-color mode
-void SetTextMode (BYTE rows);                 // Return to text mode (25, 43, or 50 rows)
-BYTE GetTextMode (void);                      // Query current text mode row count
+// Mode Functions
 
-// Palette and Clipping
-void SetPalette  (BYTE col, WORD count, WORD segment, WORD dataOffset);
-void SetClipping (int x0, int y0, int x1, int y1);
+void SetMode13      ( void );
+void SetTextMode    ( BYTE rows );
+BYTE GetTextMode    ( void );
 
-// Screen Buffer
-void ClearScreen (BYTE col, WORD dest);       // Fill screen with a single color
-void FlipScreen  (WORD source, WORD dest);    // Copy entire screen buffer
-void WaitRetrace (void);                      // Sync with vertical retrace
+// Palette and Clipping Functions
 
-// Pixels
-void PutPixel    (WORD x, WORD y, BYTE col, BYTE clip, WORD dest);
-BYTE GetPixel    (WORD x, WORD y, BYTE clip, WORD source);
+void SetPalette     ( BYTE col, WORD count, WORD segment, WORD dataOffset );
+void SetClipping    ( int x0, int y0, int x1, int y1 );
 
-// Line and Outline Primitives
-void Line        (WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, BYTE clip, WORD dest);
-void Rectangle   (WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, WORD dest);
-void Triangle    (WORD x0, WORD y0, WORD x1, WORD y1, WORD x2, WORD y2, BYTE col, WORD dest);
-void Quad        (WORD x0, WORD y0, WORD x1, WORD y1, WORD x2, WORD y2, WORD x3, WORD y3, BYTE col, WORD dest);
+// Screen Functions
+
+void ClearScreen    ( BYTE col, WORD dest );
+void FlipScreen     ( WORD source, WORD dest );
+void WaitRetrace    ( void);
+
+// Pixel Functions
+
+void PutPixel       ( WORD x, WORD y, BYTE col,  BYTE clip, WORD dest );
+BYTE GetPixel       ( WORD x, WORD y, BYTE clip, WORD source );
+
+// Unfilled Primitives
+
+void Line           ( WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, BYTE clip, WORD dest );
+void Triangle       ( WORD x0, WORD y0, WORD x1, WORD y1, WORD x2,  WORD y2,   BYTE col, WORD dest );
+void Rectangle      ( WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, WORD dest );
+void Quad           ( WORD x0, WORD y0, WORD x1, WORD y1, WORD x2,  WORD y2,   WORD x3, WORD y3, BYTE col, WORD dest );
 
 // Filled Primitives
-void FillRectangle (WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, WORD dest);
-void FillTriangle  (int x0, int y0, int x1, int y1, int x2, int y2, BYTE col, WORD dest);
-void FillQuad      (int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3, BYTE col, WORD dest);
 
-// Image Blitting
-void PutImage    (WORD x, WORD y, WORD xs, WORD size, BYTE mask, WORD source_seg, WORD source_offs, WORD dest);
-void GetImage    (WORD x0, WORD y0, WORD x1, WORD y1, WORD source, WORD dest_seg, WORD dest_offs);         // v2 only
-void ScaleImage  (WORD x0, WORD y0, WORD x1, WORD y1, WORD source_xs, WORD source_ys, BYTE mask,           // v2 only
-                  WORD source_seg, WORD source_offs, WORD dest);
+void FillRectangle  ( WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, WORD dest );
+void FillTriangle   ( int  x0, int  y0, int  x1, int  y1, int  x2,  int  y2, BYTE col, WORD dest );
+void FillQuad       ( int  x0, int  y0, int  x1, int  y1, int  x2,  int  y2, int  x3,  int  y3, BYTE col, WORD dest );
+
+// Blitting Functions
+
+void PutImage       ( WORD x,  WORD y,  WORD xs, WORD size, BYTE mask,      WORD source_seg, WORD source_offs, WORD dest );
+void GetImage       ( WORD x0, WORD y0, WORD x1, WORD y1,   WORD source,    WORD dest_seg,   WORD dest_offs );
+void ScaleImage     ( WORD x0, WORD y0, WORD x1, WORD y1,   WORD source_xs, WORD source_ys,  BYTE mask, WORD source_seg, WORD source_offs, WORD dest );
+
 ```
 
 All `dest` and `source` parameters are 16-bit segment addresses (e.g., `0xA000` for VGA video memory).
@@ -61,17 +77,26 @@ All `dest` and `source` parameters are 16-bit segment addresses (e.g., `0xA000` 
 
 #define VGA 0xA000
 
-int main(void)
+int main ( void )
 {
-    SetMode13();
+    // Set mode-13h.
 
-    ClearScreen(0, VGA);
-    FillTriangle(160, 10, 10, 190, 310, 190, 4, VGA);
-    Line(0, 0, 319, 199, 15, 1, VGA);
-    PutPixel(160, 100, 14, 1, VGA);
+    SetMode13 ();
 
-    getch();
-    SetTextMode(25);
+    // GFX-13 function calls (Version-2). 
+
+    ClearScreen  ( 0, VGA );
+    FillTriangle ( 160, 10,  10,  190, 310, 190, 4, VGA ) ;
+    Line         ( 0,   0,   319, 199, 15,  1,      VGA );
+    PutPixel     ( 160, 100, 14,  1,                VGA);
+
+    // REturn to text mode.
+
+    getch       ();
+    SetTextMode ( 25 );
+
+    // Exit program.
+
     return 0;
 }
 ```
@@ -104,7 +129,7 @@ Run `clean.bat` from either `test/` directory to remove build artifacts.
 
 ## Test Suite
 
-Both versions include 8 visual test programs:
+Version 2.0 includes 8 visual test programs:
 
 | Test | Description |
 |------|-------------|
@@ -123,15 +148,13 @@ Each test program displays multiple screens. Press any key to advance between sc
 
 ```
 gfx-13/
-├── v1/                     Pure TASM assembly (v1.1, 18 functions)
-│   ├── gfx13.asm           Library source (~2100 lines)
-│   ├── gfx13.h             C-callable header
-│   └── test/               8 test programs + build scripts
-├── v2/                     C + inline assembly (v2.1, 20 functions)
-│   ├── gfx13.c             Library source (~2700 lines)
-│   ├── gfx13.h             C-callable header
-│   └── test/               8 test programs + build scripts
-└── CLAUDE.md               Project guidance for Claude Code
+├── v1/                     Original pure x86 assembly version
+│   ├── gfx13.asm           Library source
+│   └── gfx13.h             C-callable header
+└── v2/                     C with inline assembly version
+    ├── gfx13.c             Library source
+    ├── gfx13.h             C-callable header
+    └── test/               8 test programs + build scripts
 ```
 
 ## Technical Details
