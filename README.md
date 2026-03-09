@@ -11,8 +11,8 @@ Features:
 
 ||||
 |:---:|:---:|:---:|
-|![](images\capture\balls-1.png)|![](images\capture\blocks02_011.png)|![](images\capture\Mandelbrot_320x200.png)|||
-|![](images\capture\vectorus_000.png)|![](images\capture\plasma06_001.png)|![](images\capture\vectorus_008.png)|||
+|![](images/capture/balls-1.png)|![](images/capture/blocks02_011.png)|![](images/capture/Mandelbrot_320x200.png)|||
+|![](images/capture/vectorus_000.png)|![](images/capture/plasma06_001.png)|![](images/capture/vectorus_008.png)|||
 |||3D codded with my **M3DE** graphics engine.|
 
 ## Versions
