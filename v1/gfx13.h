@@ -50,42 +50,42 @@ extern "C" {
 
 // Mode Functions
 
-void SetMode13      (void);
-void SetTextMode    (BYTE rows);
-BYTE GetTextMode    (void);
+void SetMode13      ( void );
+void SetTextMode    ( BYTE rows );
+BYTE GetTextMode    ( void );
 
 // Palette and Clipping Functions
 
-void SetPalette     (BYTE col, WORD count, WORD segment, WORD dataOffset);
-void SetClipping    (int x0,  int y0,  int x1,  int y1);
+void SetPalette     ( BYTE col, WORD count, WORD segment, WORD dataOffset );
+void SetClipping    ( int x0,  int y0,  int x1,  int y1 );
 
 // Screen Functions
 
-void ClearScreen    (BYTE col, WORD dest);
-void FlipScreen     (WORD source, WORD dest);
-void WaitRetrace    (void);
+void ClearScreen    ( BYTE col, WORD dest );
+void FlipScreen     ( WORD source, WORD dest );
+void WaitRetrace    ( void );
 
 // Pixel Functions
 
-void PutPixel       (WORD x,  WORD y,  BYTE col, BYTE clip, WORD dest);
-BYTE GetPixel       (WORD x,  WORD y,  BYTE clip, WORD source);
+void PutPixel       ( WORD x,  WORD y,  BYTE col, BYTE clip, WORD dest );
+BYTE GetPixel       ( WORD x,  WORD y,  BYTE clip, WORD source );
 
 // Unfilled Primitives
 
-void Line           (WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, BYTE clip, WORD dest);
-void Triangle       (WORD x0, WORD y0, WORD x1, WORD y1, WORD x2, WORD y2, BYTE col, WORD dest);
-void Rectangle      (WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, WORD dest);
-void Quad           (WORD x0, WORD y0, WORD x1, WORD y1, WORD x2,  WORD y2,   WORD x3, WORD y3, BYTE col, WORD dest);
+void Line           ( WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, BYTE clip, WORD dest );
+void Triangle       ( WORD x0, WORD y0, WORD x1, WORD y1, WORD x2, WORD y2, BYTE col, WORD dest );
+void Rectangle      ( WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, WORD dest );
+void Quad           ( WORD x0, WORD y0, WORD x1, WORD y1, WORD x2,  WORD y2, WORD x3, WORD y3, BYTE col, WORD dest );
 
 // Filled Primitives
 
-void FillRectangle  (WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, WORD dest);
-void FillTriangle   (int x0,  int y0,  int x1,  int y1,  int x2,   int y2, BYTE col, WORD dest);
-void FillQuad       (int x0,  int y0,  int x1,  int y1,  int x2,   int y2, int x3, int y3, BYTE col, WORD dest);
+void FillRectangle  ( WORD x0, WORD y0, WORD x1, WORD y1, BYTE col, WORD dest );
+void FillTriangle   ( int x0, int y0, int x1, int y1, int x2, int y2, BYTE col, WORD dest );
+void FillQuad       ( int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3, BYTE col, WORD dest );
 
 // Blitting Functions
 
-void PutImage       (WORD x,  WORD y,  WORD xs, WORD size, BYTE mask, WORD source_seg, WORD source_offs, WORD dest);
+void PutImage       ( WORD x, WORD y, WORD xs, WORD size, BYTE mask, WORD source_seg, WORD source_offs, WORD dest );
 
 #ifdef __cplusplus
 }
